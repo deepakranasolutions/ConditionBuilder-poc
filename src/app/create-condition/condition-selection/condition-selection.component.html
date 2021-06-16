@@ -1,0 +1,52 @@
+<tr>
+    <td>
+        <select (change) = "onChangeObject($event.target.value)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionObjectList$ | async">
+                {{item.name}}
+            </option>
+        </select>
+    </td>
+    <td>
+        <select (change) = "onChangeOperator($event.target.value)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionOperatorList$ | async">
+                {{item}}
+            </option>
+        </select>
+    </td>
+    <td>
+        <select (change) = "onChangeValue($event.target.value)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionValueList$ | async">
+                {{item}}
+            </option>
+        </select>
+    </td>
+    <td>
+        <select (change) = "onChangeJoin($event.target.value)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionJoinList$ | async">
+                {{item}}
+            </option>
+        </select>
+    </td>
+    <td>
+        <select *ngIf="showActionAndResult" (change) = "onChangeAction($event.target.value)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionActionList$ | async">
+                {{item}}
+            </option>
+        </select>
+    </td>
+    <td>
+        <select *ngIf="showActionAndResult" (change) = "onChangeResult($event.target.value)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionResultList$ | async">
+                {{item}}
+            </option>
+        </select>
+    </td>
+</tr>
+    
+    

@@ -1,0 +1,192 @@
+full len - {{condition.masterBox.getBoxes().length}}<br>
+master box id - {{condition.masterBox.id}}<br>
+con id - {{condition.id}}<br><br>
+{{condition.masterBox | json}}
+<!--{{condition.masterBox | json}}<br><br>
+<button (click)="saveCondition($event, condition.masterBox)">Save Condition</button><br><br>-->
+
+<ng-container *ngTemplateOutlet="ntConditionPreview; context:{box: condition.masterBox}"></ng-container>
+
+
+<ng-template #ntConditionPreview let-box="box">
+  (
+  <span *ngIf="!box.isLeafBox()">
+    <span *ngFor="let subBox of box.getBoxes(); last as isLast">
+      <ng-container *ngTemplateOutlet="ntConditionPreview;context:{box: subBox}"></ng-container>
+      <span *ngIf="!isLast"> {{box.join}} </span>
+    </span>
+  </span>
+  <span *ngIf="box.isLeafBox()">
+    <span *ngFor="let sc of box.getSubConditions(); last as isLast">
+      {{sc.id}} <span *ngIf="!isLast"> {{box.join}} </span>
+    </span>
+  </span>
+  )
+</ng-template>
+
+<!--ng-container *ngTemplateOutlet="ntConditionView; context:{box: condition.masterBox}"></ng-container-->
+<app-condition-view [condition] = "condition"></app-condition-view>
+
+
+<table>
+  <tr>
+    <td>
+      <table>
+        <tr>
+          <td>
+            <!--Condition creation part-->
+              <ng-container *ngTemplateOutlet="ntConditionBox;context:{box: condition.masterBox}"></ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button (click)="addOuterGroup($event)">Add Outer Group</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button (click)="saveCondition($event, condition)">Save Condition</button>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td style="border-left: 1px solid;">
+      <!--Result part-->
+      <ng-container *ngTemplateOutlet="conditionAction;context:{box: condition.masterBox}"></ng-container>
+    </td>
+    <td style="border-left: 1px solid;">
+      <!--Result part-->
+      <ng-container *ngTemplateOutlet="conditionResult;context:{box: condition.masterBox}"></ng-container>
+    </td>
+  </tr>
+</table>
+
+
+
+<ng-template #ntConditionBox let-box="box">
+  <table class="border" [ngClass]="{'theme-odd':!box.depth%2==0, 'theme-even':box.depth%2==0}">
+    <tr>
+      <td  style="border: 1px solid red;">
+        <i>Group {{box.displayId}}</i><br>
+        {{box.id}} <br>
+        {{box.depth}}<br>
+        <input type="radio" name="{{box.id}}" id="AND:{{box.id}}" (click)="onClickJoin(box, 'AND')">AND<br/>
+        <input type="radio" name="{{box.id}}" id="OR:{{box.id}}" (click)="onClickJoin(box, 'OR')">OR
+      </td>
+      <td style="border: 1px solid green;">
+        <table style="border: none;">
+          <tr>
+            <td>
+              <span *ngIf="!box.isLeafBox()">
+                <div *ngFor="let subBox of box.getBoxes()" style="margin: 5px">
+                  <ng-container *ngTemplateOutlet="ntConditionBox;context:{box: subBox}"></ng-container>
+                </div>
+              </span>
+              <span *ngIf="box.isLeafBox()">
+                <ng-container *ngTemplateOutlet="ntLeafBox; context:{box: box}"></ng-container>
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="!box.isLeafBox()">
+            <td>
+              <button (click)="onAddGroup($event, box)">Add sibling {{box.id}}</button>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</ng-template>
+
+<ng-template #ntLeafBox let-box="box">
+  <table style="border: none;">
+    <tr>
+      <!--td class="border">
+        {{box.id}} <br>
+        AND/OR <br>
+      </td-->
+      <td class="noborder">
+        <table>
+          <tr *ngFor="let subCondition of box.getSubConditions()">
+            <ng-container *ngTemplateOutlet="conditionOptions;context:{box: box, subCondition: subCondition, listLenght: box.getSubConditions().length}"></ng-container>
+          </tr>
+          <tr>
+            <td>
+              <button (click)="onAddRowInGroup($event, box)">Add Condition Row</button>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</ng-template>
+
+<ng-template #conditionGroup let-box="box" let-subCondition="subCondition" let-listLenght="listLenght">
+    <ng-container *ngTemplateOutlet="conditionOptions;context:{box: box, subCondition:subCondition, listLenght: listLenght}"></ng-container>
+</ng-template>
+
+<!--First part of the conditons-->
+<ng-template #conditionOptions let-box="box" let-subCondition="subCondition" let-listLenght="listLenght">
+  <!--td>
+    {{box.id}}
+  </td-->
+    <td>
+        <select (change) = "onChangeObject($event.target.value, subCondition)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionObjectList$ | async">
+                {{item.name}}
+            </option>
+        </select>
+    </td>
+    <td>
+        <select (change) = "onChangeOperator($event.target.value, subCondition)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionOperatorList$ | async">
+                {{item}}
+            </option>
+        </select>
+    </td>
+    <td>
+        <select (change) = "onChangeValue($event.target.value, subCondition)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionValueList$ | async">
+                {{item}}
+            </option>
+        </select>
+    </td>
+    <!--td>
+        <select (change) = "onChangeJoin($event.target.value, subCondition)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionJoinList$ | async">
+                {{item}}
+            </option>
+        </select>
+    </td-->
+    <td>
+        <button (click)="onRemoveRow($event, box, subCondition)">Remove</button>
+    </td>
+</ng-template>
+
+<!--Second part of the conditons-->
+<ng-template #conditionAction>
+    <td>
+        <select *ngIf="showActionAndResult" (change) = "onChangeAction($event.target.value)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionActionList$ | async">
+                {{item}}
+            </option>
+        </select>
+    </td>
+</ng-template>
+<ng-template #conditionResult>
+    <td>
+        <select *ngIf="showActionAndResult" (change) = "onChangeResult($event.target.value)">
+            <option>-Select-</option>
+            <option *ngFor="let item of conditionResultList$ | async">
+                {{item}}
+            </option>
+        </select>
+    </td>
+</ng-template>
+
+

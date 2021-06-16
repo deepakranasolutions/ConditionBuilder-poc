@@ -1,0 +1,25 @@
+
+.border table, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    
+}
+
+td {
+    padding: 5px;
+}
+
+.noborder table, td {
+    border: 0px dotted;
+    
+}
+
+@mixin boxFillThemeMixin ($name, $color){
+    .#{$name}{
+        background-color: lighten($color, 10%);
+    }
+}
+
+@include boxFillThemeMixin(theme-odd, lightblue);
+@include boxFillThemeMixin(theme-even, pink);

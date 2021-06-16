@@ -1,0 +1,100 @@
+<table>
+    <tr>
+        <td>
+            <!--Condition part-->
+            <ng-container *ngTemplateOutlet="ntConditionViewBox;context:{box: condition.masterBox}"></ng-container>
+        </td>
+        <td style="border-left: 1px solid;">
+            <!--Action part-->
+            <ng-container *ngTemplateOutlet="conditionActionView;context:{condition: condition}"></ng-container>
+        </td>
+        <td style="border-left: 1px solid;">
+            <!--Result part-->
+            <ng-container *ngTemplateOutlet="conditionResultView;context:{condition: condition}"></ng-container>
+        </td>
+    </tr>
+</table>
+
+<ng-template #ntConditionViewBox let-box="box">
+  <table class="border" [ngClass]="{'theme-odd':!box.depth%2==0, 'theme-even':box.depth%2==0}">
+    <tr>
+      <td  style="border: 1px solid red;">
+        <i>Group {{box.displayId}}</i><br>
+        {{box.join}}<br>
+      </td>
+      <td style="border: 1px solid green;">
+        <table style="border: none;">
+          <tr>
+            <td>
+              <span *ngIf="!box.isLeafBox()">
+                <div *ngFor="let subBox of box.getBoxes()" style="margin: 5px">
+                  <ng-container *ngTemplateOutlet="ntConditionViewBox;context:{box: subBox}"></ng-container>
+                </div>
+              </span>
+              <span *ngIf="box.isLeafBox()">
+                <ng-container *ngTemplateOutlet="ntLeafViewBox; context:{box: box}"></ng-container>
+              </span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</ng-template>
+
+<ng-template #ntLeafViewBox let-box="box">
+  <table style="border: none;">
+    <tr>
+      <td class="noborder">
+        <table>
+          <tr *ngFor="let subCondition of box.getSubConditions()">
+            <ng-container *ngTemplateOutlet="conditionOptions;context:{box: box, subCondition: subCondition, listLenght: box.getSubConditions().length}"></ng-container>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</ng-template>
+
+<ng-template #conditionGroup let-box="box" let-subCondition="subCondition" let-listLenght="listLenght">
+    <ng-container *ngTemplateOutlet="conditionOptions;context:{box: box, subCondition:subCondition, listLenght: listLenght}"></ng-container>
+</ng-template>
+
+<!--First part of the conditons-->
+<ng-template #conditionOptions let-box="box" let-subCondition="subCondition" let-listLenght="listLenght">
+  <!--td>
+    {{box.id}}
+  </td-->
+    <span *ngIf="subCondition.conditionObject; else elseBlock">
+        <td>
+            {{subCondition.conditionObject}}
+        </td>
+        <td>
+            {{subCondition.conditionOperator}}
+        </td>
+        <td>
+            {{subCondition.conditionValue}}
+        </td>
+    </span>
+    <ng-template #elseBlock>Condition not yet setup.</ng-template>
+</ng-template>
+
+<!--Second part of the conditons-->
+<ng-template #conditionActionView let-condition="condition">
+    <td>
+        <span *ngIf="condition.conditionAction; else elseBlock">
+            {{condition.conditionAction}}
+        </span>
+        <ng-template #elseBlock>Action not yet setup</ng-template>
+    </td>
+</ng-template>
+<ng-template #conditionResultView let-condition="condition">
+    <td>
+        <span *ngIf="condition.conditionResult; else elseBlock">
+            {{condition.conditionResult}}
+        </span>
+        <ng-template #elseBlock>Result not yet setup</ng-template>
+    </td>
+</ng-template>
+
+
