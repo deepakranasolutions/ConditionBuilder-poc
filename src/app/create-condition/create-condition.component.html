@@ -16,6 +16,7 @@ con id - {{condition.id}}<br><br>
       <span *ngIf="!isLast"> {{box.join}} </span>
     </span>
   </span>
+  
   <span *ngIf="box.isLeafBox()">
     <span *ngFor="let sc of box.getSubConditions(); last as isLast">
       {{sc.id}} <span *ngIf="!isLast"> {{box.join}} </span>
