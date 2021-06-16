@@ -16,7 +16,6 @@ con id - {{condition.id}}<br><br>
       <span *ngIf="!isLast"> {{box.join}} </span>
     </span>
   </span>
-  
   <span *ngIf="box.isLeafBox()">
     <span *ngFor="let sc of box.getSubConditions(); last as isLast">
       {{sc.id}} <span *ngIf="!isLast"> {{box.join}} </span>
@@ -65,7 +64,8 @@ con id - {{condition.id}}<br><br>
 
 
 <ng-template #ntConditionBox let-box="box">
-  <table class="border" [ngClass]="{'theme-odd':!box.depth%2==0, 'theme-even':box.depth%2==0}">
+  <!--table class="border" [ngClass]="{'theme-odd':!box.depth%2==0, 'theme-even':box.depth%2==0}"-->
+  <table class="border">
     <tr>
       <td  style="border: 1px solid red;">
         <i>Group {{box.displayId}}</i><br>
