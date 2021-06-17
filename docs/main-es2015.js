@@ -411,7 +411,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const routes = [
     { path: '', redirectTo: '/createCondition', pathMatch: 'full' },
-    /*{path: 'ConditionBuilder-poc', redirectTo: '/createCondition', pathMatch: 'full'},*/
+    { path: 'ConditionBuilder-poc', redirectTo: '/createCondition', pathMatch: 'prefix' },
     { path: 'createCondition', component: _create_condition_create_condition_component__WEBPACK_IMPORTED_MODULE_4__["CreateConditionComponent"] },
     { path: 'viewConditionList', component: _condition_list_condition_list_component__WEBPACK_IMPORTED_MODULE_5__["ConditionListComponent"] }
 ];

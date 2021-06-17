@@ -7,7 +7,7 @@ import { ConditionListComponent } from './condition-list/condition-list.componen
 
 const routes: Routes = [
   {path: '', redirectTo: '/createCondition', pathMatch: 'full'},
-  /*{path: 'ConditionBuilder-poc', redirectTo: '/createCondition', pathMatch: 'full'},*/
+  {path: 'ConditionBuilder-poc', redirectTo: '/createCondition', pathMatch: 'prefix'},
   {path: 'createCondition', component: CreateConditionComponent},
   {path: 'viewConditionList', component: ConditionListComponent}
 ];

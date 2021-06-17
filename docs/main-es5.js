@@ -889,9 +889,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       path: '',
       redirectTo: '/createCondition',
       pathMatch: 'full'
-    },
-    /*{path: 'ConditionBuilder-poc', redirectTo: '/createCondition', pathMatch: 'full'},*/
-    {
+    }, {
+      path: 'ConditionBuilder-poc',
+      redirectTo: '/createCondition',
+      pathMatch: 'prefix'
+    }, {
       path: 'createCondition',
       component: _create_condition_create_condition_component__WEBPACK_IMPORTED_MODULE_4__["CreateConditionComponent"]
     }, {
