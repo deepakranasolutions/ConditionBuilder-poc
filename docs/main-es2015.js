@@ -32,7 +32,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<!--app-create-condition></app-create-condition-->\r\n<nav>\r\n    <a routerLink=\"/createCondition\">Create New Condition</a><br>\r\n    <a routerLink=\"/viewConditionList\">View Conditions</a>\r\n</nav>\r\n<router-outlet></router-outlet>");
+/* harmony default export */ __webpack_exports__["default"] = ("<!--app-create-condition></app-create-condition-->\r\n<p>\r\n    Notes: This page is still in development. <br/>\r\n    - Refresh of page is not working. If you clicked bychance, close the page and reopen the page.<br/>\r\n    - Stylesheet is not working<br/>\r\n    - To reset the condition, click on 'View Condition' link and then again click on 'Create Condition' link <br/>\r\n\r\n</p>\r\n<nav>\r\n    <a routerLink=\"/createCondition\">Create New Condition</a><br>\r\n    <a routerLink=\"/viewConditionList\">View Conditions</a>\r\n</nav>\r\n<router-outlet></router-outlet>");
 
 /***/ }),
 
@@ -411,6 +411,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const routes = [
     { path: '', redirectTo: '/createCondition', pathMatch: 'full' },
+    { path: 'ConditionBuilder-poc', redirectTo: '/createCondition', pathMatch: 'full' },
     { path: 'createCondition', component: _create_condition_create_condition_component__WEBPACK_IMPORTED_MODULE_4__["CreateConditionComponent"] },
     { path: 'viewConditionList', component: _condition_list_condition_list_component__WEBPACK_IMPORTED_MODULE_5__["ConditionListComponent"] }
 ];

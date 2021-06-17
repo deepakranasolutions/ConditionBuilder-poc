@@ -24,7 +24,7 @@ con id - {{condition.id}}<br><br>
   )
 </ng-template>
 
-<!--ng-container *ngTemplateOutlet="ntConditionView; context:{box: condition.masterBox}"></ng-container-->
+<ng-container *ngTemplateOutlet="ntConditionView; context:{box: condition.masterBox}"></ng-container>
 <app-condition-view [condition] = "condition"></app-condition-view>
 
 
@@ -64,8 +64,7 @@ con id - {{condition.id}}<br><br>
 
 
 <ng-template #ntConditionBox let-box="box">
-  <!--table class="border" [ngClass]="{'theme-odd':!box.depth%2==0, 'theme-even':box.depth%2==0}"-->
-  <table class="border">
+  <table class="border" [ngClass]="{'theme-odd':!box.depth%2==0, 'theme-even':box.depth%2==0}">
     <tr>
       <td  style="border: 1px solid red;">
         <i>Group {{box.displayId}}</i><br>
